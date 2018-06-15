@@ -1,0 +1,105 @@
+<template>
+    <div class="login-wrap">
+        <mt-header fixed title="独家招聘"></mt-header>
+        <div class="info-wrapper">
+            <img class="head-img" src="../assets/logo.png"></img>
+            <div class="user-name">
+                <input type="text" placeholder="请输入用户名" v-model="user">
+            </div>
+            <div class="user-password">
+                <input type="password" placeholder="请输入用户密码" v-model="password">
+            </div>
+            <div class="edit-wrap">
+                <mt-button size="small" @click="login" type="primary" style="margin-right: 50px">登录</mt-button>
+                <mt-button size="small" @click="login" type="primary">注册</mt-button>
+            </div>
+
+        </div>
+    </div>
+</template>
+
+<script>
+  import { Header } from 'mint-ui'
+  export default {
+    name: '',
+    data () {
+      return {
+        user: '',
+        password: ''
+      }
+    },
+    methods: {
+      login () {
+        let param = {
+          user: this.user,
+          password:this.password
+        }
+        console.log(param)
+        this.$http('post','login',{},param).then((data) => {
+          console.log('返回成功')
+        })
+      }
+    },
+    components: {
+
+    }
+  }
+</script>
+
+<style>
+    .mint-header.is-fixed {
+        height: 80px;
+    }
+    .head-img {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 20px;
+        border-radius: 50%;
+    }
+    .login-wrap {
+        height: 100%;
+        position: relative;
+    }
+    .info-wrapper {
+        position: absolute;
+        top: 80px;
+        bottom: 0;
+        width: 100%;
+        border: 1px solid #cdcdcd;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .user-name,.user-password {
+        width: 100%;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        padding: 0 20px;
+        height: 80px;
+        justify-content: center;
+        align-items: center;
+    }
+    .user-name input {
+        width: 100%;
+        height: 100%;
+        font-size: 40px;
+        outline:none;
+        border-image: none;
+        border: none;
+        border-bottom: 1px solid #dbdbdb;
+    }
+    .user-password input {
+        width: 100%;
+        height: 100%;
+        font-size: 40px;
+        border-image: none;
+        outline:none;
+        border: none;
+        border-bottom: 1px solid #dbdbdb;
+    }
+    .edit-wrap {
+        margin-top: 30px;
+        display: flex;
+    }
+</style>
