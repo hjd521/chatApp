@@ -11,7 +11,7 @@
             </div>
             <div class="edit-wrap">
                 <mt-button size="small" @click="login" type="primary" style="margin-right: 50px">登录</mt-button>
-                <mt-button size="small" @click="login" type="primary">注册</mt-button>
+                <mt-button size="small" @click="reg" type="primary">注册</mt-button>
             </div>
 
         </div>
@@ -38,6 +38,9 @@
         this.$http('post','login',{},param).then((data) => {
           console.log('返回成功')
         })
+      },
+      reg () {
+        this.$router.push('/register')
       }
     },
     components: {
