@@ -18,19 +18,30 @@ router.get('/data',function(req,res){
   // res.json({name: 'hjd',age: 16})
 })
 router.post('/reg',function(req,res){
-  console.log(req.body)
+  // console.log(req.body)
   if (!req.body.user || !req.body.password) {
-    res.status(400).json({text: '参数不全'})
+    res.status(200).json({text: '参数不全',code: 1})
   } else {
-    res.status(200).json({text: 'success'})
-    mongo.User.create({user:req.body.user,password:req.body.password},function(err,doc){
+    mongo.User.find({name:req.body.user},function(err,doc) {
       if(err) {
         console.log(err)
       } else {
-        console.log(doc)
-        console.log('插入成功')
+        if (doc && doc.length !== 0) {
+            res.status(200).json({text: '账号重复',code: 2})
+            return
+        } else {
+          mongo.User.create({user:req.body.user,password:req.body.password},function(err,doc){
+            if(err) {
+              console.log(err)
+            } else {
+              console.log('插入成功')
+              res.status(200).json({text: 'success'})
+            }
+          })
+        }
       }
     })
+
   }
 })
 module.exports = router;

@@ -44,14 +44,26 @@
         let self = this
         this.$http('post', '/reg',  {},param).then( (data)=> {
           console.log(data)
-          if(parseInt(data.status) === 200) {
+          if(parseInt(data.data.code) === 0) {
             Toast({
               message: '注册成功！请登录',
-              position: 'bottom',
-              duration: 5000
+              position: 'middle',
+              duration: 2000
             })
           self.$router.push('/login')
-        }
+        } else if(parseInt(data.data.code) === 2) {
+            Toast({
+              message: '账户重复请重新输入',
+              position: 'middle',
+              duration: 2000
+            })
+          } else {
+            Toast({
+              message: '请输入用户名或密码！',
+              position: 'middle',
+              duration: 2000
+            })
+          }
         }).catch((err) => {
           console.log(err)
         })

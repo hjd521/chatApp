@@ -24,6 +24,7 @@ export default function(method, url, params, data) {
         position: 'middle',
         duration: 2000
       });
+      Indicator.close()
       reject(err)
     })
   })
