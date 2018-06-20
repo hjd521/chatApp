@@ -49,7 +49,8 @@
   }
 </script>
 
-<style>
+<style lang="scss">
+    @import "../assets/css/config.scss";
     .mint-header.is-fixed {
         height: 80px;
     }
@@ -79,14 +80,15 @@
         margin-bottom: 10px;
         box-sizing: border-box;
         padding: 0 20px;
-        height: 80px;
+        height: 60px;
         justify-content: center;
         align-items: center;
     }
     .user-name input {
         width: 100%;
         height: 100%;
-        font-size: 40px;
+        @include font-dpr(16)
+        /*font-size: 16Px;*/
         outline:none;
         border-image: none;
         border: none;
@@ -95,7 +97,7 @@
     .user-password input {
         width: 100%;
         height: 100%;
-        font-size: 40px;
+        @include font-dpr(16)
         border-image: none;
         outline:none;
         border: none;

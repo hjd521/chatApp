@@ -1,9 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>chat-app</title>
+    <script>
+      (function flexible (window, document) {
+        var docEl = document.documentElement
+        var dpr = window.devicePixelRatio || 1
+        // adjust body font size
+        function setBodyFontSize () {
+          if (document.body) {
+            document.body.style.fontSize = (12 * dpr) + 'px'
+          }
+          else {
+            document.addEventListener('DOMContentLoaded', setBodyFontSize)
+          }
+        }
+        setBodyFontSize();
+        function setRemUnit () {
+          var setSize = docEl.clientWidth/7.5 + 'px'
+          docEl.style.fontSize =  setSize
+          docEl.setAttribute('data-dpr',dpr)
+        }
+        setRemUnit()
+        // reset rem unit on page resize
+        window.addEventListener('resize', setRemUnit)
+        window.addEventListener('pageshow', function (e) {
+          if (e.persisted) {
+            setRemUnit()
+          }
+        })
+      }(window, document))
+    </script>
     <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
     <style>
       #app {

@@ -1,6 +1,7 @@
 'use strict'
 const utils = require('./utils')
 const config = require('../config')
+var px2rem = require('postcss-px2rem')
 const isProduction = process.env.NODE_ENV === 'production'
 const sourceMapEnabled = isProduction
   ? config.build.productionSourceMap
@@ -18,5 +19,8 @@ module.exports = {
     source: 'src',
     img: 'src',
     image: 'xlink:href'
+  },
+  postcss: function() {
+    return [px2rem({remUnit: 100})];
   }
 }
