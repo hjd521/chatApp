@@ -18,6 +18,7 @@
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   export default {
     name: '',
     data () {
@@ -40,8 +41,17 @@
           birthday: this.birthday,
           introduction: this.introduction,
         }
+        let self = this
         this.$http('post', '/reg',  {},param).then( (data)=> {
           console.log(data)
+          if(parseInt(data.status) === 200) {
+            Toast({
+              message: '注册成功！请登录',
+              position: 'bottom',
+              duration: 5000
+            })
+          self.$router.push('/login')
+        }
         }).catch((err) => {
           console.log(err)
         })
