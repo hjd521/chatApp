@@ -9,30 +9,6 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-const mongoose = require('mongoose');
-const DB_URL = 'mongodb://localhost:27017';
-mongoose.connect(DB_URL);
-mongoose.connection.on('connected',function(err,db){
-  if(!err) {
-    console.log('数据库连接成功')
-  }
-})
-const User= mongoose.model('user',new mongoose.Schema({
-  name:{type:String,required:true},
-  age: {type:Number,required:true}
-}))
-//新增数据
-User.create({
-  name: 'hl',
-  age: 10
-},function(err,doc){
-  if(err) {
-    console.log(err)
-  } else {
-    console.log(doc)
-  }
-})
-// 解决跨域
 app.all('*',function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');

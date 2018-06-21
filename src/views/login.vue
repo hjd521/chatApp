@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import { Header } from 'mint-ui'
+  import { Header,Toast } from 'mint-ui'
   export default {
     name: '',
     data () {
@@ -30,12 +30,38 @@
     },
     methods: {
       login () {
+        let self = this
         let param = {
           user: this.user,
           password:this.password
         }
         console.log(param)
         this.$http('post','login',{},param).then((data) => {
+          if (parseInt(data.data.code) === 2) {
+            Toast({
+              message: '登录成功',
+              position: 'middle',
+              duration: 2000
+            })
+            if (data.data.isNew) {
+              self.$router.push('/setInfo')
+            } else {
+              self.$router.push('/info')
+            }
+
+          } else if(parseInt(data.data.code) === 1) {
+            Toast({
+              message: '请输入用户名或者密码',
+              position: 'middle',
+              duration: 2000
+            })
+          } else {
+            Toast({
+              message: '账号或者密码错误',
+              position: 'middle',
+              duration: 2000
+            })
+          }
           console.log('返回成功')
         })
       },
@@ -49,7 +75,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     @import "../assets/css/config.scss";
     .mint-header.is-fixed {
         height: 80px;
@@ -62,6 +88,8 @@
     }
     .login-wrap {
         height: 100%;
+        width: 100%;
+        box-sizing: border-box;
         position: relative;
     }
     .info-wrapper {

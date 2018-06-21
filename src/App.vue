@@ -5,6 +5,9 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+  import { Header,Toast,Cell  } from 'mint-ui'
+  Vue.component(Cell.name, Cell)
 export default {
   name: 'App'
 }

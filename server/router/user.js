@@ -4,22 +4,32 @@
 var mongo = require('../mongo/index.js')
 const express = require('express');
 const router = express.Router();
+var cookie=require('cookie-parser');
 router.post('/login',function(req,res){
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-  console.log(req)
-  if (!req.body.user || !req.body.password) {
-    res.status(200).json({text: '用户名或者密码缺少',code: 1})
+  if (req.body.user === '' || req.body.user === undefined) {
+    res.status(200).json({text: '请输入用户名',code: 1})
+  } else if(req.body.password === undefined || req.body.password === '') {
+    res.status(200).json({text: '请输入密码',code: 1})
   } else {
     mongo.User.find({user:req.body.user,password:req.body.password},function(err,doc) {
       if(err) {
         console.log(err)
       } else {
+        console.log(req.cookies)
         if (doc && doc.length !== 0) {
+          if (req.cookies.name) {
+            console.log('cookies is save')
+          } else {
+            res.cookie('name', '666', {
+              maxAge: 600000
+            })
+          }
           res.status(200).json({text: '登陆成功',code: 2})
         } else {
-          res.status(200).json({text: '无此账户请注册后再进行登录',code: 3})
+          res.status(200).json({text: '账号或者密码错误',code: 3})
         }
       }
     })

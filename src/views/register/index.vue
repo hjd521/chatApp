@@ -72,7 +72,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .mint-header.is-fixed {
         height: 80px;
     }
