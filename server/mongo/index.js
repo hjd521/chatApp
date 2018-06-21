@@ -15,7 +15,7 @@ var userSchema = new mongoose.Schema({
   password: {type:String,required:true}
 })
 var Models = {
-  User: mongoose.model('User', userSchema),
+  User: mongoose.model('userList', userSchema),
 }
 
 module.exports = Models

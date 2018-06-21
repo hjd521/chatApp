@@ -44,7 +44,7 @@
         let self = this
         this.$http('post', '/reg',  {},param).then( (data)=> {
           console.log(data)
-          if(parseInt(data.data.code) === 0) {
+          if(parseInt(data.data.code) === 3) {
             Toast({
               message: '注册成功！请登录',
               position: 'middle',

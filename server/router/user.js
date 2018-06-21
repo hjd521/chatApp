@@ -9,7 +9,21 @@ router.post('/login',function(req,res){
   res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
   console.log(req)
-  res.status(200).json({ name: 'hjd' })
+  if (!req.body.user || !req.body.password) {
+    res.status(200).json({text: '用户名或者密码缺少',code: 1})
+  } else {
+    mongo.User.find({user:req.body.user,password:req.body.password},function(err,doc) {
+      if(err) {
+        console.log(err)
+      } else {
+        if (doc && doc.length !== 0) {
+          res.status(200).json({text: '登陆成功',code: 2})
+        } else {
+          res.status(200).json({text: '无此账户请注册后再进行登录',code: 3})
+        }
+      }
+    })
+  }
 })
 router.get('/data',function(req,res){
   User.find({},function(err,doc){
@@ -22,7 +36,7 @@ router.post('/reg',function(req,res){
   if (!req.body.user || !req.body.password) {
     res.status(200).json({text: '参数不全',code: 1})
   } else {
-    mongo.User.find({name:req.body.user},function(err,doc) {
+    mongo.User.find({user:req.body.user},function(err,doc) {
       if(err) {
         console.log(err)
       } else {
@@ -30,18 +44,21 @@ router.post('/reg',function(req,res){
             res.status(200).json({text: '账号重复',code: 2})
             return
         } else {
-          mongo.User.create({user:req.body.user,password:req.body.password},function(err,doc){
+          var user = new mongo.User({
+            user: req.body.user,
+            password: req.body.password
+          })
+          user.save(function(err, result) {
             if(err) {
               console.log(err)
             } else {
-              console.log('插入成功')
-              res.status(200).json({text: 'success'})
+              console.log('插入成功',result)
+              res.status(200).json({text: 'success',code: 3})
             }
           })
         }
       }
     })
-
   }
 })
 module.exports = router;
