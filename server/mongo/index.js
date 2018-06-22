@@ -12,7 +12,8 @@ mongoose.connection.on('connected',function(err,db){
 
 var userSchema = new mongoose.Schema({
   user:{type:String,required:true},
-  password: {type:String,required:true}
+  password: {type:String,required:true},
+  numSet: {type: Number,required: true}
 })
 var Models = {
   User: mongoose.model('userList', userSchema),

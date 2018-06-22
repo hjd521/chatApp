@@ -1,6 +1,10 @@
 <template>
     <div class="set-info-wrapper">
-        <mt-header fixed title="完善信息"></mt-header>
+        <mt-header fixed title="完善信息">
+            <router-link to="/" slot="left">
+                <mt-button icon="back">返回</mt-button>
+            </router-link>
+        </mt-header>
        <div class="sel-head">
            <div class="sel-head-title">请选择头像</div>
            <img :src="headImg" alt="" @click="selHead">

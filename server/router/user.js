@@ -19,10 +19,10 @@ router.post('/login',function(req,res){
         console.log(err)
       } else {
         console.log(doc)
-        doc.numSet = parseInt(doc.numSet) + 1
-        console.log(req.cookies)
+        doc.numSet = parseInt(doc[0].numSet) + 1
         if (doc && doc.length !== 0) {
           var isNew =  parseInt(doc.numSet) <= 1 ? true : false
+          console.log(isNew)
           res.status(200).json({text: '登陆成功',code: 2,isNew: isNew})
         } else {
           res.status(200).json({text: '账号或者密码错误',code: 3})
