@@ -4,6 +4,7 @@ import login from '@/views/login'
 import register from '@/views/register/index'
 import info from '@/views/info/index'
 import setInfo from '@/views/setInfo/index'
+import selPos from '@/views/selPosition/selPosition.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -17,13 +18,11 @@ export default new Router({
       name: 'login',
       component: login
     },
-    ,
     {
       path: '/info',
       name: 'info',
       component: info
     },
-    ,
     {
       path: '/setInfo',
       name: 'setInfo',
@@ -33,6 +32,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: register
+    },
+    {
+      path: '/sel',
+      name: 'selPos',
+      component: selPos
     }
   ]
 })

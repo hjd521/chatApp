@@ -9,8 +9,12 @@
             <div class="sel-cardId-title">请选择身份</div>
             <div class="card-id" @click="setCard" v-text="cardId"></div>
         </div>
+        <div class="sel-card-id">
+            <div class="sel-cardId-title">请选择地点</div>
+            <div class="card-id" @click="setPos" v-text="position"></div>
+        </div>
         <div class="boss-wrap">
-            <mt-field label="招聘职位" placeholder="请输入招聘的职位名称" v-model="position"></mt-field>
+            <mt-field label="招聘职位" placeholder="请输入招聘的职位名称" v-model="positionSel"></mt-field>
             <mt-field label="薪资范围" placeholder="请输入招聘的职位名称" v-model="range"></mt-field>
             <mt-field label="招聘要求" placeholder="请输入招聘的职位名称" v-model="req"></mt-field>
         </div>
@@ -36,6 +40,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
  import p1 from '../../assets/img/p1.png'
  import p2 from '../../assets/img/p2.png'
  import p3 from '../../assets/img/p3.png'
@@ -57,7 +62,7 @@
     name: '',
     data () {
       return {
-        position: '',
+        positionSel: '',
         range: 0,
         req: '',
         nPosition: '',
@@ -88,8 +93,14 @@
       },
       setCard () {
         this.popupVisible = true
+      },
+      setPos () {
+        this.$router.push('/sel')
       }
-    }
+    },
+    computed: mapState([
+      'position'
+    ])
   }
 </script>
 

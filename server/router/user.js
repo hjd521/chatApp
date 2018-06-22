@@ -18,16 +18,12 @@ router.post('/login',function(req,res){
       if(err) {
         console.log(err)
       } else {
+        console.log(doc)
+        doc.numSet = parseInt(doc.numSet) + 1
         console.log(req.cookies)
         if (doc && doc.length !== 0) {
-          if (req.cookies.name) {
-            console.log('cookies is save')
-          } else {
-            res.cookie('name', '666', {
-              maxAge: 600000
-            })
-          }
-          res.status(200).json({text: '登陆成功',code: 2})
+          var isNew =  parseInt(doc.numSet) <= 1 ? true : false
+          res.status(200).json({text: '登陆成功',code: 2,isNew: isNew})
         } else {
           res.status(200).json({text: '账号或者密码错误',code: 3})
         }
@@ -56,7 +52,8 @@ router.post('/reg',function(req,res){
         } else {
           var user = new mongo.User({
             user: req.body.user,
-            password: req.body.password
+            password: req.body.password,
+            numSet: 0
           })
           user.save(function(err, result) {
             if(err) {
