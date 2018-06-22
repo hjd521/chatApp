@@ -4,5 +4,8 @@
 export default {
   setPosition (state,name) {
     state.position = name
+  },
+  setUser(state,user) {
+    state.user = user
   }
 }

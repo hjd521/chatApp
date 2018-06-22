@@ -7,7 +7,7 @@ Vue.use(Vuex)
 import mutations from './mutations'
 const state = {
   position: '杭州',
-  userName: '',
+  user: '',
 }
 export default new Vuex.Store({
   state,

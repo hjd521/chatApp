@@ -19,6 +19,7 @@
 </template>
 
 <script>
+  import { mapMutations } from 'vuex'
   import { Header,Toast } from 'mint-ui'
   export default {
     name: '',
@@ -43,6 +44,7 @@
               position: 'middle',
               duration: 2000
             })
+            this.setUser(param.user)
             if (data.data.isNew) {
               self.$router.push('/setInfo')
             } else {
@@ -67,7 +69,10 @@
       },
       reg () {
         this.$router.push('/register')
-      }
+      },
+      ...mapMutations(
+          ['setUser']
+      )
     },
     components: {
 

@@ -5,6 +5,7 @@ var mongo = require('../mongo/index.js')
 const express = require('express');
 const router = express.Router();
 var cookie=require('cookie-parser');
+// 登录接口
 router.post('/login',function(req,res){
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
@@ -31,12 +32,7 @@ router.post('/login',function(req,res){
     })
   }
 })
-router.get('/data',function(req,res){
-  User.find({},function(err,doc){
-    res.json(doc);
-  })
-  // res.json({name: 'hjd',age: 16})
-})
+// 注册接口
 router.post('/reg',function(req,res){
   // console.log(req.body)
   if (!req.body.user || !req.body.password) {
@@ -67,5 +63,24 @@ router.post('/reg',function(req,res){
       }
     })
   }
+})
+// 完善信息接口
+router.post('/perfectId',function(req,res){
+  console.log('the user is',req.body.user)
+  mongo.User.update({user: req.body.user},{
+    identity: req.body.identity,// 身份
+    position: req.body.position, // 位置
+    title: req.body.pos,
+    range: req.body.range,
+    year: req.body.year,
+    req: req.body.req
+  },function(err,doc) {
+    if(err) {
+      console.log(err)
+      res.status(500)
+    } else {
+      res.status(200).json({code:2,text: 'success'})
+    }
+  })
 })
 module.exports = router;
