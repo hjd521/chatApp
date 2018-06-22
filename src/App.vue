@@ -6,8 +6,11 @@
 
 <script>
   import Vue from 'vue'
-  import { Header,Toast,Cell  } from 'mint-ui'
+  import { Header,Toast,Cell,Picker,Actionsheet,Popup  } from 'mint-ui'
   Vue.component(Cell.name, Cell)
+  Vue.component(Picker.name, Picker)
+  Vue.component(Actionsheet.name, Actionsheet);
+  Vue.component(Popup.name, Popup);
 export default {
   name: 'App'
 }

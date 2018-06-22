@@ -1,8 +1,14 @@
 <template>
     <div class="set-info-wrapper">
         <mt-header fixed title="完善信息"></mt-header>
-        <mt-cell title="选择头像"  is-link ></mt-cell>
-        <mt-cell title="选择身份"  is-link></mt-cell>
+       <div class="sel-head">
+           <div class="sel-head-title">请选择头像</div>
+           <img :src="headImg" alt="" @click="selHead">
+       </div>
+        <div class="sel-card-id">
+            <div class="sel-cardId-title">请选择身份</div>
+            <div class="card-id" @click="setCard" v-text="cardId"></div>
+        </div>
         <div class="boss-wrap">
             <mt-field label="招聘职位" placeholder="请输入招聘的职位名称" v-model="position"></mt-field>
             <mt-field label="薪资范围" placeholder="请输入招聘的职位名称" v-model="range"></mt-field>
@@ -16,10 +22,16 @@
         <div class="img-wrapper" v-show="showImg">
             <div class="img-grid">
                 <div class="grid-item" v-for="(item,index) in imgs">
-                    <img :src="item" alt="">
+                    <img :src="item" alt="" @click="setHead(item)">
                 </div>
             </div>
         </div>
+        <mt-popup
+                v-model="popupVisible"
+                position="bottom">
+            <mt-picker style="width: 100%;" :slots="slots" @change="onValuesChange"></mt-picker>
+        </mt-popup>
+
     </div>
 </template>
 
@@ -52,23 +64,78 @@
         nRange: 0,
         nReq: '',
         imgs: [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16],
-        showImg: false
+        showImg: false,
+        headImg: p1,
+        slots: [
+          {values:['boss','求职者'], flex: 1,},
+        ],
+        popupVisible: false, // 控制选择身份的显示
+        cardId: '>'
       }
     },
     methods: {
       selHead () {
         this.showImg = true
+      },
+      setHead (item) {
+        this.headImg = item
+        this.showImg = false
+      },
+      onValuesChange (picker) {
+        console.log(picker.getValues())
+        this.cardId = picker.getValues() + '>'
+        this.popupVisible = false
+      },
+      setCard () {
+        this.popupVisible = true
       }
     }
   }
 </script>
 
 <style lang="scss">
+    @import "../../assets/css/config.scss";
+    .mint-popup {
+        width: 100%;
+    }
     .set-info-wrapper {
         box-sizing: border-box;
         height: 100%;
         width: 100%;
-        padding-top: 80px;
+        padding: 80px 20px 0 20px;
+        .sel-head {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            .sel-head-title {
+            @include font-dpr(16)
+            }
+            img {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+            }
+        }
+        .sel-card-id {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            .sel-cardId-title,.card-id {
+            @include font-dpr(16)
+            }
+            .card-id{
+                height: 80px;
+                line-height: 80px;
+            }
+        }
+
+
     }
     .mint-header.is-fixed {
         height: 80px;
