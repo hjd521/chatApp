@@ -1,11 +1,23 @@
 <template>
     <div class="info-wrapper">
-        <mt-header fixed title="信息列表"></mt-header>
+        <mt-header fixed title="牛人列表"></mt-header>
         <div class="content">
             <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :top-method="loadTop">
-                <ul class="scroll-content">
-                    <li v-for="item in list">{{ item }}</li>
-                </ul>
+                <div class="job-seeker">
+                    <div class="left">
+                        <div class="title">前端开发工程师</div>
+                        <div class="education">
+                            <span>本科</span><span>3年工作经验</span>
+                        </div>
+                        <div class="name">
+                            <img src="../../assets/img/p1.png" alt="">
+                            <span>侯建东</span>
+                        </div>
+                    </div>
+                    <div class="right">
+                        15-25k
+                    </div>
+                </div>
             </mt-loadmore>
         </div>
         <div class="footer" @click="tabChange($event)">
@@ -60,6 +72,7 @@
         height: 80px;
     }
     .info-wrapper {
+        background-color: #f6f6f6;
         height: 100%;
         .content {
             position: absolute;
@@ -68,6 +81,45 @@
             left: 0;
             right: 0;
             overflow-y: auto;
+            .job-seeker {
+                height: 200px;
+                background-color: #fff;
+                margin-bottom: 10px;
+                width: 100%;
+                box-sizing: border-box;
+                display: flex;
+                padding: 20px 20px;
+                .left {
+                    flex: 1;
+                    text-align: left;
+                    .title {
+                        @include font-dpr(16)
+                    }
+                    .education {
+                    @include font-dpr(14)
+                    }
+                    .name {
+                        width: 100%;
+                        height: 80px;
+                        display: flex;
+                        align-items: center;
+                        line-height: 80px;
+                        @include font-dpr(14);
+                        img {
+                            width: 80px;
+                            border-radius: 50%;
+                            margin-right: 30px;
+                            height: 100%;
+                        }
+                    }
+                }
+                .right {
+                @include font-dpr(14)
+                    width: 150px;
+                    height: 100%;
+                    line-height: 160px;
+                }
+            }
         }
         .footer {
             height: 120px;

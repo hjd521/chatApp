@@ -164,11 +164,7 @@
             req: card.req.name // 要求
           }).then((data) => {
             if(parseInt(data.data.code) === 2) {
-              Toast({
-                message: '信息完成完成，即将跳转',
-                position: 'middle',
-                duration: 2000
-              })
+              self.$router.push('/info')
             }
           })
         }
