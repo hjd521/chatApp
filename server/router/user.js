@@ -2,6 +2,7 @@
  * Created by 侯建东 on 2018/6/20.
  */
 var mongo = require('../mongo/index.js')
+var token = require('../mongo/token.js')
 const express = require('express');
 const router = express.Router();
 var cookie=require('cookie-parser');
@@ -24,7 +25,8 @@ router.post('/login',function(req,res){
         if (doc && doc.length !== 0) {
           var isNew =  parseInt(doc.numSet) <= 1 ? true : false
           console.log(isNew)
-          res.status(200).json({text: '登陆成功',code: 2,isNew: isNew})
+          var tokenName = token(req.body.user)
+          res.status(200).json({text: '登陆成功',code: 2,isNew: isNew,token:tokenName})
         } else {
           res.status(200).json({text: '账号或者密码错误',code: 3})
         }
