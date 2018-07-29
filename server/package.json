@@ -1,7 +1,8 @@
 {
   "devDependencies": {
     "crypto": "^1.0.1",
-    "mongoose": "^5.1.1"
+    "mongoose": "^5.1.1",
+    "socket.io": "^2.1.1"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

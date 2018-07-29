@@ -9,7 +9,7 @@ var cookie=require('cookie-parser');
 // 登录接口
 router.post('/login',function(req,res){
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+  res.header("Access-Control-AllHeadersow-", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
   if (req.body.user === '' || req.body.user === undefined) {
     res.status(200).json({text: '请输入用户名',code: 1})

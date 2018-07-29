@@ -3,7 +3,7 @@
         <mt-header fixed title="牛人列表"></mt-header>
         <div class="content">
             <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :top-method="loadTop">
-                <div class="job-seeker">
+                <div class="job-seeker" @click="showMessage">
                     <div class="left">
                         <div class="title">前端开发工程师</div>
                         <div class="education">
@@ -23,7 +23,7 @@
         <div class="footer" @click="tabChange($event)">
             <div class="boss" data-index ="1" :class="{act: activeindex == 1}">
                 <img src="../../assets/img/boss.png" alt="">
-                <div>boss</div>
+                <div>牛人</div>
             </div>
             <div class="message" data-index="2" :class="{act: activeindex == 2}">
                 <img src="../../assets/img/message.png" alt="">
@@ -34,10 +34,14 @@
                 <div>我</div>
             </div>
         </div>
+        <msg-list ref="message" :person="item"></msg-list>
     </div>
 </template>
 
 <script>
+    import p1 from '../../assets/img/p1.png'
+    import io from 'socket.io-client'
+    import msgList from '../../components/chatWrap.vue'
   export default {
     name: '',
     data () {
@@ -45,7 +49,8 @@
         activeindex: 1,
         allLoaded: false,
         selected: '1',
-        list: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1]
+        list: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1],
+        item: {}
       }
     },
     methods: {
@@ -58,10 +63,30 @@
           },
       tabChange (e) {
         this.activeindex = e.target.parentNode.getAttribute('data-index')
+      },
+      showMessage () {
+        this.item.name = 'hjd'
+        this.item.headImg = p1
+        this.$refs.message.show = true
       }
-
     },
     components: {
+      msgList
+    },
+    sockets:{
+      connect: function(){
+        console.log('io,sucess')
+      },
+      news: function(val){
+        console.log(val)
+      }
+    },
+    mounted () {
+        this.id=this.$socket.id
+        console.log(this.id)
+    },
+    created () {
+      this.$socket.emit('my other event', { my: 'data' });
     }
   }
 </script>
