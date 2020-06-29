@@ -154,16 +154,16 @@
           }
         }
         if (result) {
-          this.$http('post','/perfectId', {},{
-            user: this.user, // 用户名
-            identify: this.cardId, //  身份
-            position: this.position, // 位置
+          this.$http('put',`/user/${this.$route.query.id}`, {},{
+            id: this.$route.query.id, // 用户名
+            identity: this.cardId, //  身份
+            location: this.position, // 位置
             pos: card.pos.name, // 职位名称
             range: card.range.name, // 范围
-            year: card.year.name, // 年限
-            req: card.req.name // 要求
+            workLong: card.year.name, // 年限
+            skill: card.req.name // 要求
           }).then((data) => {
-            if(parseInt(data.data.code) === 2) {
+            if(parseInt(data.data.code) === 1) {
               self.$router.push('/info')
             }
           })

@@ -4,14 +4,18 @@
            <mt-button icon="back" slot="left" @click="back"></mt-button>
        </mt-header>
        <div class="message-list">
-           <div class="message-item">
-               <img :src="person.headImg">
-               <div class="message-info">我们</div>
+          <div class="person">
+            <img src="../assets/img/p1.png">
+            <div class="message-info">{{person.username}}</div>
+          </div>
+           <div class="message-item" v-for='(item,index) in messageList' :key='index'>
+               <img src="../assets/img/p2.png">
+               <div class="message-info">{{item.fromName + '：' + item.content}}</div>
            </div>
        </div>
        <div class="send-control">
-           <input type="text">
-           <mt-button type="primary">发送</mt-button>
+           <mt-field label='' v-model='message' style='flex:1;' @keydown.enter="send"></mt-field>
+           <mt-button type="primary" @click='send' >发送</mt-button>
        </div>
    </div>
 </template>
@@ -21,15 +25,25 @@
     name: '',
     data () {
       return {
-         show: false
+        message: '',
+        show: false
       }
     },
     props: {
-      person: Object
+      person: Object,
+      messageList: {
+        type: Array,
+        default() {
+          return []
+        }
+      }
     },
     methods: {
       back () {
         this.show = false
+      },
+      send(e) {
+          this.$emit('message', this.message)
       }
     }
   }
@@ -76,6 +90,19 @@
                     text-align: left;
                     border: 1px solid #fff;
                 }
+            }
+            .person {
+              height: 50px;
+              font-size: 30px;
+              color: #333;
+              align-items: center;
+              display: flex;
+              img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-right: 20px;
+              }
             }
         }
         .send-control {

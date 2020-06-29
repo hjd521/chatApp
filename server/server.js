@@ -1,38 +1,28 @@
 /**
  * Created by 侯建东 on 2018/5/19.
  */
-const express = require('express');
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser');
-var user = require('./router/user.js'); // 获取用户登录注册相关的接口
-const app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-http.listen(80);
-
-app.use(cookieParser());
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.all('*',function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
-  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  res.header('Content-Length', 1)
-  if (req.method == 'OPTIONS') {
-    res.sendStatus(200); //让options请求快速返回
-  }
-  else {
-    next();
+const koa = require('koa');
+const app = new koa();
+const router = require('./router/index.js')
+const bodyParser = require('koa-bodyparser');
+require('./ws.js');
+// 设置options请求接收以及跨域的处理方案。
+app.use(bodyParser());
+app.use(router.allowedMethods());
+app.use(async (ctx, next)=> {
+  ctx.set('Access-Control-Allow-Origin', '*');
+  ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+  ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  if (ctx.method == 'OPTIONS') {
+    ctx.body = 200; 
+  } else {
+    await next();
   }
 });
-app.use('/', user)
-io.on('connection', function (socket) {
-  console.log('瘦到连接')
-  socket.emit('news', {hello: 'world'});
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+app.use(router.routes());
+app.on('error', err => {
+  console.log('server error', err);
 })
-app.listen(9093,function(){
-  console.log('node app start at 9093')
-})
+app.listen(9000, () => {
+  console.log('server is running http://localhost:9000')
+});

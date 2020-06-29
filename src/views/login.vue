@@ -36,27 +36,24 @@
           user: this.user,
           password:this.password
         }
-        console.log(param)
         this.$http('post','login',{},param).then((data) => {
-          if (parseInt(data.data.code) === 2) {
+          let result = data.data
+          if (parseInt(result.code) === 1) {
             Toast({
               message: '登录成功',
               position: 'middle',
               duration: 2000
             })
-            this.setUser(param.user)
-            if (data.data.isNew) {
-              self.$router.push('/setInfo')
-            } else {
-              self.$router.push('/info')
-            }
-
-          } else if(parseInt(data.data.code) === 1) {
-            Toast({
-              message: '请输入用户名或者密码',
-              position: 'middle',
-              duration: 2000
-            })
+            self.$router.push('/info')
+            localStorage.setItem('user', JSON.stringify(result.data))
+          } else if(parseInt(result.code) === 2) {
+            self.$router.push({ 
+                path: '/setInfo',
+                query: {
+                  id: result.data.id
+                }
+              })
+              localStorage.setItem('user', JSON.stringify(result.data))
           } else {
             Toast({
               message: '账号或者密码错误',
@@ -64,7 +61,6 @@
               duration: 2000
             })
           }
-          console.log('返回成功')
         })
       },
       reg () {
