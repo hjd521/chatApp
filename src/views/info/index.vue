@@ -10,7 +10,7 @@
                             <span>{{item.pos || '--'}}</span><span>  {{item.workLong || '暂无'}}</span>
                         </div>
                         <div class="name">
-                            <img src="../../assets/img/p1.png" alt="">
+                            <img :src="item.headUrl" alt="">
                             <span>{{item.username}}</span>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                     toName: this.item.username,
                     content: text
                 }
-                console.log(message)
+                this.$refs.message.message = ''
                 this.ws.send(JSON.stringify(message))
             },
             getAddressList() {
@@ -100,8 +100,12 @@
         mounted () {
             let self = this
             this.ws.onmessage= function(e) {
-               let data = JSON.parse(e.data)
-               self.messageList.push(data)
+               let data = JSON.parse(e.data);
+               let id = JSON.parse(localStorage.getItem('user')).id
+               if ((data.from ===  id && data.to === self.item.id) || (data.to ===  id && data.from === self.item.id)) {
+                self.messageList.push(data)
+               }
+               
             }
         },
         created () {

@@ -7,7 +7,7 @@
         </mt-header>
         <div class="sel-head">
             <div class="sel-head-title">请选择头像</div>
-            <img :src="headImg" alt="" @click="selHead">
+            <img :src="headImg.filename || ''" alt="" @click="selHead">
         </div>
         <div class="sel-card-id">
             <div class="sel-cardId-title">请选择身份</div>
@@ -39,8 +39,8 @@
         </div>
         <div class="img-wrapper" v-show="showImg">
             <div class="img-grid">
-                <div class="grid-item" v-for="(item,index) in imgs">
-                    <img :src="item" alt="" @click="setHead(item)">
+                <div class="grid-item" v-for="(item,index) in imgs" :key='index'>
+                    <img :src="item.filename" alt="" @click="setHead(item)">
                 </div>
             </div>
         </div>
@@ -55,23 +55,6 @@
 
 <script>
   import {mapState} from 'vuex'
-  import p1 from '../../assets/img/p1.png'
-  import p2 from '../../assets/img/p2.png'
-  import p3 from '../../assets/img/p3.png'
-  import p4 from '../../assets/img/p4.png'
-  import p5 from '../../assets/img/p5.png'
-  import p6 from '../../assets/img/p6.png'
-  import p7 from '../../assets/img/p7.png'
-  import p8 from '../../assets/img/p8.png'
-  import p9 from '../../assets/img/p9.png'
-  import p10 from '../../assets/img/p10.png'
-  import p11 from '../../assets/img/p11.png'
-  import p12 from '../../assets/img/p12.png'
-  import p13 from '../../assets/img/p11.png'
-  import p14 from '../../assets/img/p12.png'
-  import p15 from '../../assets/img/p11.png'
-  import p16 from '../../assets/img/p12.png'
-
   export default {
     name: '',
     data () {
@@ -112,9 +95,9 @@
             tip: ''
           }
         },
-        imgs: [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16],
+        imgs: [],
         showImg: false,
-        headImg: p1,
+        headImg: '',
         slots: [
           {values: ['boss', '求职者'], flex: 1,},
         ],
@@ -156,6 +139,7 @@
         if (result) {
           this.$http('put',`/user/${this.$route.query.id}`, {},{
             id: this.$route.query.id, // 用户名
+            headUrl: this.headImg.filename,
             identity: this.cardId, //  身份
             location: this.position, // 位置
             pos: card.pos.name, // 职位名称
@@ -169,12 +153,26 @@
           })
         }
 
+      },
+      getHeadImg() {
+        this.$http('get', '/user/head').then(data => {
+          let result = data.data
+          console.log(result)
+          if (result.code === 1 && result.success) {
+            console.log('cddddrrrr')
+            this.imgs = result.data
+            this.headImg = result.data[0]
+          }
+        })
       }
     },
     computed: mapState([
       'position',
       'user'
-    ])
+    ]),
+    created() {
+      this.getHeadImg()
+    }
   }
 </script>
 

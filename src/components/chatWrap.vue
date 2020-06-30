@@ -5,7 +5,7 @@
        </mt-header>
        <div class="message-list">
           <div class="person">
-            <img src="../assets/img/p1.png">
+            <img :src="person.headUrl">
             <div class="message-info">{{person.username}}</div>
           </div>
            <div class="message-item" v-for='(item,index) in messageList' :key='index'>

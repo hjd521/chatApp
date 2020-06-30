@@ -8,6 +8,7 @@
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
     "koa-bodyparser": "^4.3.0",
     "koa-static": "^5.0.0",
     "mongodb": "^3.1.0-beta4",

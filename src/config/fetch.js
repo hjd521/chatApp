@@ -3,7 +3,7 @@
  */
 import axios from 'axios'
 import { Indicator, Toast } from 'mint-ui';
-axios.defaults.baseURL = 'http://10.10.70.216:9000/';
+axios.defaults.baseURL = 'http://10.10.70.129:9000/';
 axios.defaults.headers.post['Content-Type'] = 'text/plain;charset=UTF-8';
 axios.defaults.headers.put['Content-Type'] = 'text/plain;charset=UTF-8';
 export default function(method, url, params, data) {

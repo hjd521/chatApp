@@ -1,4 +1,6 @@
 var {sql} = require('../database/user.js')
+const getFile = require('../utils/file.js')
+const path = require('path')
 const uuid = require('node-uuid')
 module.exports = {
   reg: (query) => {
@@ -92,6 +94,7 @@ module.exports = {
       } else {
         let arr = [
           query.identity,
+          query.headUrl,
           query.location,
           query.workLong,
           query.pos,
@@ -100,7 +103,7 @@ module.exports = {
           query.id
         ]
         console.log(query.id)
-        sql.query('update `user_seeker` set `identity` = ?,`location`=?,`workLong`=?,`pos`=?,`range`=?,`skill`=? where `id` = ?',arr, function(err, data) {
+        sql.query('update `user_seeker` set `identity` = ?, `headUrl` = ? ,`location`=?,`workLong`=?,`pos`=?,`range`=?,`skill`=? where `id` = ?',arr, function(err, data) {
           if (err) {
             console.log('更新数据失败!', err)
             resolve({
@@ -117,5 +120,16 @@ module.exports = {
         })
       }
     })
+  },
+  getHeadImg: (query) => {
+    let body = getFile.readFileList(path.join(process.cwd(),'static/img')).filter((item) => {
+      return /\.png|jpeg|jpg$/.test(item.filename)
+    })
+    return {
+      success: true,
+      msg: '获取头像成功',
+      code: 1,
+      data: body
+    }
   }
 }

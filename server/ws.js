@@ -14,10 +14,10 @@ let server = ws.createServer((con) => {
     let result = await insert(data)
     broad(JSON.stringify(result))
   })
-  con.on('error', (er) => {
+  con.on('error', (err) => {
     console.log(err)
   })
-  con.on('close', (err) => {
+  con.on('close', () => {
     console.log('close')
   })
 }).listen(3000)
