@@ -8,9 +8,9 @@
             <img :src="person.headUrl">
             <div class="message-info">{{person.username}}</div>
           </div>
-           <div class="message-item" v-for='(item,index) in messageList' :key='index'>
-               <img src="../assets/img/p2.png">
-               <div class="message-info">{{item.fromName + '：' + item.content}}</div>
+           <div class="message-item" v-for='(item,index) in messageList' :key='index' :class='{chatLeft: item.from === userid}'>
+               <img :src="item.formHeadUrl">
+               <div class="message-info">{{item.content}}</div>
            </div>
        </div>
        <div class="send-control">
@@ -26,7 +26,8 @@
     data () {
       return {
         message: '',
-        show: false
+        show: false,
+        userid: ''
       }
     },
     props: {
@@ -45,6 +46,9 @@
       send(e) {
           this.$emit('message', this.message)
       }
+    },
+    created() {
+      this.userid = JSON.parse(localStorage.getItem('user')).id
     }
   }
 </script>
@@ -76,6 +80,7 @@
                 padding: 0 .2rem;
                 align-items: center;
                 display: flex;
+                justify-content: flex-end;
                 flex-direction: row;
                 img {
                     width: .6rem;
@@ -90,6 +95,9 @@
                     text-align: left;
                     border: 1px solid #fff;
                 }
+            }
+            .chatLeft {
+              justify-content: flex-start;
             }
             .person {
               height: 50px;

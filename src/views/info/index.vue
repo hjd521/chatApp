@@ -77,8 +77,10 @@
                 let user = JSON.parse(localStorage.getItem('user'))
                 let message = {
                     from: user.id,
+                    formHeadUrl: user.headUrl,
                     fromName: user.username,
                     to: this.item.id,
+                    toHeadUrl: this.item.headUrl,
                     toName: this.item.username,
                     content: text
                 }
@@ -100,6 +102,7 @@
         mounted () {
             let self = this
             this.ws.onmessage= function(e) {
+               console.log('接收到服务器发来的消息', e.data)
                let data = JSON.parse(e.data);
                let id = JSON.parse(localStorage.getItem('user')).id
                if ((data.from ===  id && data.to === self.item.id) || (data.to ===  id && data.from === self.item.id)) {
@@ -110,8 +113,9 @@
         },
         created () {
             let self = this
+            let id = JSON.parse(localStorage.getItem('user')).id
             if(window.WebSocket) {
-                this.ws = new WebSocket('ws://localhost:3000');
+                this.ws = new WebSocket(`ws://localhost:3000?id=${id}`);
                 this.ws.onopen = function(e) {
                     console.log('websocket链接打开')
                 }
